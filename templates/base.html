@@ -1,0 +1,17 @@
+{% load static %}<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#164d45"><title>{% block title %}OstrichDispatch · Every order, together{% endblock %}</title><link rel="icon" href="{% static 'icon.svg' %}" type="image/svg+xml"><link rel="manifest" href="{% static 'manifest.webmanifest' %}"><link rel="stylesheet" href="{% static 'app.css' %}"><link rel="stylesheet" href="{% static 'charts.css' %}"><link rel="apple-touch-icon" href="{% static 'icon-192.png' %}"><script src="{% static 'app.js' %}" defer></script></head>
+<body><a class="skip" href="#main">Skip to content</a>
+{% if user.is_authenticated %}<aside class="sidebar"><a class="brand" href="{% url 'dashboard' %}"><img src="{% static 'icon.svg' %}" alt="" width="36" height="36">OstrichDispatch<span class="brand-dot">.</span></a><p class="side-label">YOUR DELIVERY DESK</p><nav aria-label="Main navigation">
+<a href="{% url 'dashboard' %}" {% if request.resolver_match.url_name == 'dashboard' %}aria-current="page"{% endif %}><span>▦</span>All orders</a>
+<a href="{% url 'calendar' %}" {% if request.resolver_match.url_name == 'calendar' %}aria-current="page"{% endif %}><span>▤</span>Delivery calendar</a>
+<a href="{% url 'analytics' %}" {% if request.resolver_match.url_name == 'analytics' %}aria-current="page"{% endif %}><span>◴</span>Spending insights</a>
+<a href="{% url 'inventory' %}" {% if request.resolver_match.url_name == 'inventory' %}aria-current="page"{% endif %}><span>◇</span>Inventory & sales</a>
+<p class="side-label">CONNECTIONS</p>
+<a href="{% url 'inboxes' %}" {% if request.resolver_match.url_name == 'inboxes' %}aria-current="page"{% endif %}><span>✉</span>Connected inboxes</a>
+<a href="{% url 'notifications' %}" {% if request.resolver_match.url_name == 'notifications' %}aria-current="page"{% endif %}><span>◉</span>Activity {% if unread_count %}<b class="count">{{ unread_count }}</b>{% endif %}</a>
+<a href="{% url 'settings' %}" {% if request.resolver_match.url_name == 'settings' %}aria-current="page"{% endif %}><span>⚙</span>Settings</a></nav>
+<div class="sidebar-bottom"><div class="personal-label"><i></i> Your private space</div><div class="user-row"><span class="avatar">{{ user.first_name|default:user.username|first|upper }}</span><div><strong>{{ user.first_name|default:'Welcome back' }}</strong><small>{{ user.email }}</small></div></div><form method="post" action="{% url 'logout' %}">{% csrf_token %}<button class="text-button" type="submit">Sign out ↗</button></form></div></aside>{% endif %}
+<main id="main" class="{% if user.is_authenticated %}main{% else %}public-main{% endif %}">
+{% if user.is_authenticated %}<div class="topbar"><span>LESS INBOX HUNTING. MORE PEACE OF MIND.</span><div><button id="theme-toggle" class="text-button" aria-label="Toggle color theme">◐ Theme</button><a href="{% url 'notifications' %}" class="activity-link">Activity {% if unread_count %}<b>{{ unread_count }}</b>{% endif %}</a></div></div>{% endif %}
+{% for message in messages %}<div class="toast {{ message.tags }}" role="status">{{ message }}</div>{% endfor %}
+{% block content %}{% endblock %}<footer>OstrichDispatch · A little less to keep track of. <a href="{% url 'privacy' %}">Privacy</a></footer></main></body></html>

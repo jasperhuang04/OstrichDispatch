@@ -1,0 +1,14 @@
+.env
+.env.*
+.venv
+.git
+data
+staticfiles
+__pycache__
+test-results
+*.sqlite3*
+*.pem
+*.key
+*.dump
+*.eml
+*.mbox

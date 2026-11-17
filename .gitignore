@@ -1,0 +1,17 @@
+.env
+.env.*
+!.env.example
+.venv/
+__pycache__/
+*.py[cod]
+*.sqlite3*
+data/
+staticfiles/
+.coverage
+test-results/
+*.pem
+*.key
+*.dump
+*.eml
+*.mbox
+.DS_Store
